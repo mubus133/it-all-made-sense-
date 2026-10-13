@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Book Reader"
+description = "A clean, responsive book-reading website. Import a Word document locally, organize chapters, search the full text, adjust reading size, and switch between light and dark modes without accounts or payments."
+version = "1.0.0"
+id = "artifacts/book-reader"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21545
+
+[services.development]
+run = "pnpm --filter @workspace/book-reader run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/book-reader", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/book-reader/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21545"
+BASE_PATH = "/"
